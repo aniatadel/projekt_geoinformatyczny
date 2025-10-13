@@ -5,8 +5,8 @@ gantt
     excludes    weekends
 
     section Etap I – Przygotowanie danych
-    Baza danych (A)                         :a1, 2025-10-08, 5d
-    Macierz sąsiedztwa i JSON (Ł)           :a2, 2025-10-08, 5d
+    Baza danych (A)                         :a1, 2025-10-08, 5d, 100%
+    Macierz sąsiedztwa i JSON (Ł)           :a2, 2025-10-08, 5d, 100%
 
     section Etap II – Implementacja algorytmów
     Algorytm NS i naiwny (A)                :b1, after a2, 7d
