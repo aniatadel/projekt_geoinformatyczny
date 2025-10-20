@@ -9,8 +9,8 @@ gantt
     Macierz sąsiedztwa i JSON (Ł) - wykonane           :a2, 2025-10-08, 5d
 
     section Etap II – Implementacja algorytmów
-    Algorytm NS i naiwny (A)                :b1, after a2, 7d
-    Algorytm Kruskala i Held-Karpa (Ł)      :b2, after a1, 7d
+    Algorytm NS i naiwny (A) - wykonane               :b1, after a2, 7d
+    Algorytm Kruskala i Held-Karpa (Ł) - wykonane     :b2, after a1, 7d
 
     section Etap III – Tworzenie i wizualizacja grafu
     Budowa grafu i podgrafu (A)             :c1, after b1, 7d
