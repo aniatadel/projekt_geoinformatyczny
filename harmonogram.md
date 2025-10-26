@@ -13,8 +13,8 @@ gantt
     Algorytm Kruskala i Held-Karpa (Ł) - wykonane     :b2, after a1, 7d
 
     section Etap III – Tworzenie i wizualizacja grafu
-    Budowa grafu i podgrafu (A)             :c1, after b1, 7d
-    Wizualizacja tras na grafie i podgrafie (Ł) :c2, after b2, 7d
+    Budowa grafu i podgrafu (A) - wykonane             :c1, after b1, 7d
+    Wizualizacja tras na grafie i podgrafie (Ł) - wykonane :c2, after b2, 7d
 
     section Etap IV – Integracja ze środowiskiem GIS
     Integracja środowiska ArcGIS z Pythonem (A) :d1, after c1, 7d
