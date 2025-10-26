@@ -1,6 +1,7 @@
 import math
 import sqlite3
 import matplotlib.pyplot as plt
+import networkx as nx
 import numpy as np
 from wyszukiwanie_pliku import sciezka_do_katalogu_gl_projektu
 from komiwojazer import Komiwojazer
@@ -190,3 +191,94 @@ class Graf:
             polaczenia_w_trasie_hk = polaczenia_w_trasie(self, najkrotsza_droga_held_karp)
 
         return polaczenia_w_calym_grafie, polaczenia_w_trasie_kruksal, polaczenia_w_trasie_hk
+
+    def rysowanie_wykresu(self, polaczenia_w_calym_grafie, polaczenia_w_trasie, tytul, kolor):
+        """
+        Metoda służąca do rysowania wykresu dla danej trasy
+        :param polaczenia_w_calym_grafie: lista zawierająca wszystkie połączenia w grafie
+        :param polaczenia_w_trasie: lista zawierająca tylko połączenia w trasie
+        :param tytul: tytuł wykresu
+        :param kolor: kolor krawędzi
+        """
+        G = nx.Graph()  # inicjalizacja grafu
+        G.add_edges_from(polaczenia_w_calym_grafie)  # dodawanie krawędzi na podstawie połączeń w całym grafie
+
+        kolory_krawedzi = {}  # Słownik przechowujący kolory krawędzi
+        grubosc_krawedzi = {}  # Słownik przechowujący grubości krawędzi
+        etykiety_krawedzi = {}  # Słownik przechowujący etykiety krawędzi
+        poz = {}  # słownik przechowujące pozycje węzłów
+
+        # iteracja przez wszystkie krawędzie w grafie
+        for edge in G.edges:
+            if edge in polaczenia_w_trasie or (edge[-1], edge[0]) in polaczenia_w_trasie:
+                kolory_krawedzi[edge] = kolor  # ustawienie kolorów i grubości krawędzi
+                grubosc_krawedzi[edge] = 5
+                if edge in polaczenia_w_trasie:  # jeżeli krawędź istnieje w trasie
+                    etykiety_krawedzi[edge] = polaczenia_w_trasie.index(
+                        edge) + 1  # dodawana jest etykieta na podstawie indeksu
+                else:
+                    etykiety_krawedzi[edge] = polaczenia_w_trasie.index((edge[-1], edge[0])) + 1
+            else:
+                kolory_krawedzi[edge] = "#999999"
+                grubosc_krawedzi[edge] = 0.2
+
+        # iteracja przez wszystkie węzły w grafie
+        for node in G.nodes:
+            wspolrzedne = self.kursor.execute(
+                f"SELECT x, y FROM Lotniska WHERE miasto = '{node}'").fetchone()  # pobranie współrzędnych węzła z bazy danych
+            poz[node] = wspolrzedne  # dodawanie do słownika
+
+        kolory = [kolory_krawedzi[edge] for edge in G.edges]
+        grubosci = [grubosc_krawedzi[edge] for edge in G.edges]
+
+        nx.draw_networkx(
+            G,
+            poz,
+            with_labels=True,
+            edge_color=kolory,
+            width=grubosci,
+            node_size=1150,
+            node_color="pink"
+        )
+        nx.draw_networkx_edge_labels(
+            G,
+            poz,
+            edge_labels=etykiety_krawedzi,
+            font_color='red'
+        )
+        plt.title(tytul)
+
+    def rysowanie_grafu(self, macierz_sasiedztwa: list, start: int, oryginalne={}) -> None:
+        """
+        Metoda służąca do rysowania grafu
+        :param macierz_sasiedztwa: macierz sąsiedztwa po dokonaniu konwersji
+        :param start: miasto początkowe podróży wybrane przez użytkownika
+        """
+
+        if oryginalne:
+            polaczenia_w_calym_grafie, polaczenia_w_trasie_kruksal, polaczenia_w_trasie_hk = self.polaczenia_w_grafie_i_trasie(
+                macierz_sasiedztwa, start, oryginalne)
+        else:
+            polaczenia_w_calym_grafie, polaczenia_w_trasie_kruksal, polaczenia_w_trasie_hk = self.polaczenia_w_grafie_i_trasie(
+                macierz_sasiedztwa, start)
+
+        plt.figure(figsize=(18, 6))  # ustawenie wymiarów
+
+        # Tworzenie subplotów do wyświetlania tras
+        plt.subplot(1, 3, 1)  # Kruksal
+        self.rysowanie_wykresu(polaczenia_w_calym_grafie, polaczenia_w_trasie_kruksal,
+                               "Trasa wyznaczona algrytmem Kruksala", '#da92c8')
+
+        plt.subplot(1, 3, 2)  # Held karp
+        self.rysowanie_wykresu(polaczenia_w_calym_grafie, polaczenia_w_trasie_hk,
+                               "Trasa wyznaczona algrytmem Helda-Karpa", 'skyblue')
+
+        # Porównanie dwóch tras na jednym wykresie
+        plt.subplot(1, 3, 3)
+        self.rysowanie_wykresu(polaczenia_w_calym_grafie, polaczenia_w_trasie_kruksal,
+                               "Porównanie trasy Kruksala i Helda-Karpa", '#da92c8')
+        self.rysowanie_wykresu(polaczenia_w_calym_grafie, polaczenia_w_trasie_hk,
+                               "Porównanie trasy Kruksala i Helda-Karpa", 'skyblue')
+
+        plt.tight_layout()
+        plt.show()
