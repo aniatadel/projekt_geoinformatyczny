@@ -17,8 +17,8 @@ gantt
     Wizualizacja tras na grafie i podgrafie (Ł) - wykonane :c2, after b2, 7d
 
     section Etap IV – Integracja ze środowiskiem GIS
-    Integracja środowiska ArcGIS z Pythonem (A) :d1, after c1, 7d
-    Kod rysujący trasę na mapie GIS (Ł)          :d2, after c2, 7d
+    Integracja środowiska ArcGIS z Pythonem (A) - wykonane :d1, after c1, 7d
+    Kod rysujący trasę na mapie GIS (Ł) - wykonane         :d2, after c2, 7d
 
     section Etap V – Testy i podsumowanie
     Testy aplikacji (A&Ł)                  :e1, 2025-11-10, 1d
