@@ -21,8 +21,8 @@ gantt
     Kod rysujący trasę na mapie GIS (Ł) - wykonane         :d2, after c2, 7d
 
     section Etap V – Testy i podsumowanie
-    Testy aplikacji (A&Ł)                  :e1, 2025-11-10, 1d
-    Plik README (A&Ł)                      :e2, after e1, 1d
+    Testy aplikacji (A&Ł) - wykonane             :e1, 2025-11-10, 1d
+    Plik README (A&Ł) - wykonane                 :e2, after e1, 1d
 
     section Etap VI – Oddanie projektu
     Analiza wyników (A&Ł)                  :f1, 2025-11-13, 1d
